@@ -19,6 +19,7 @@ ENV AWS_ACCESS_KEY_ID $AWS_ACCESS_KEY_ID
 ENV AWS_SECRET_ACCESS_KEY $AWS_SECRET_ACCESS_KEY
 ENV AWS_DEFAULT_REGION $AWS_DEFAULT_REGION
 
+
 # Copy the requirements file into the container
 COPY requirements.txt .
 
@@ -32,4 +33,6 @@ COPY . .
 EXPOSE 5000
 
 # Command to run the Flask application
+
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "restapi:app", "--workers=1"]
+
