@@ -34,5 +34,5 @@ EXPOSE 5000
 
 # Command to run the Flask application
 
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "restapi:app", "--workers=1"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "server:app", "--workers=1"]
 
