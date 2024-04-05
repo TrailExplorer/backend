@@ -23,4 +23,4 @@ def get_trails_by_length():
     return  jsonify(aws_controller.get_trails_by_length(data))
 
 if __name__=='__main__':
-    app.run()
+    app.run(host = "0.0.0.0", debug = True, port = 5000)
