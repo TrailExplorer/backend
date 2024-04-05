@@ -12,13 +12,15 @@ def get_trail_details():
     data=request.get_json() 
     return jsonify(aws_controller.get_trail_details(data))
 
-@app.route('/get-trails-on-difficulty-rating', methods=['GET'])
-def get_trails_on_difficulty_rating():
+@app.route('/get-trails-by-difficulty-rating', methods=['GET'])
+def get_trails_by_difficulty_rating():
     data=request.get_json()
-    difficulty_rating = 7
-    if data:
-        difficulty_rating = data['difficulty_rating']
-    return jsonify(aws_controller.get_trails_on_difficulty_rating(difficulty_rating))
+    return jsonify(aws_controller.get_trails_by_difficulty_rating(data))
+
+@app.route('/get-trails-by-length')
+def get_trails_by_length():
+    data=request.get_json()
+    return  jsonify(aws_controller.get_trails_by_length(data))
 
 if __name__=='__main__':
     app.run()
