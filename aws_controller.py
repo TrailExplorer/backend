@@ -3,8 +3,7 @@ import boto3
 from boto3.dynamodb.conditions import Attr
 from decimal import Decimal
 
-print(os.environ['AWS_DEFAULT_REGION'])
-dynamodb = boto3.resource('dynamodb', region_name='us-west-2')
+dynamodb = boto3.resource('dynamodb')
 table= dynamodb.Table("trails")
 
 def sort_items(items,key,reverse):
