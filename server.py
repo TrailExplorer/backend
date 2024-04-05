@@ -1,12 +1,11 @@
 from flask import Flask, jsonify, request
 import aws_controller
-import os
 
 app=Flask(__name__)
 
 @app.route('/')
 def helloworld():
-    return jsonify(os.environ['AWS_DEFAULT_REGION'])
+    return "<p>Hello, World! How are you?</p>"
 
 @app.route('/get-trail-details', methods=['GET'])
 def get_trail_details():
