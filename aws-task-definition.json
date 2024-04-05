@@ -1,15 +1,15 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-west-2:236322310200:task-definition/trail-exp-backend-task-definition:9",
+    "taskDefinitionArn": "arn:aws:ecs:us-west-2:236322310200:task-definition/trail-exp-backend-task-definition:23",
     "containerDefinitions": [
         {
             "name": "trail-exp-backend",
-            "image": "236322310200.dkr.ecr.us-west-2.amazonaws.com/trail-explorer-backend:d9c3ff46fb3f464e385573f6f7491eaef75455bd",
+            "image": "236322310200.dkr.ecr.us-west-2.amazonaws.com/trail-explorer-backend:c4bbd1ba946f0dd4421d1c46faad0936b7e3f662",
             "cpu": 0,
             "portMappings": [
                 {
                     "name": "trail-exp-backend-5000-tcp",
                     "containerPort": 5000,
-                    "hostPort": 0,
+                    "hostPort": 8080,
                     "protocol": "tcp",
                     "appProtocol": "http"
                 }
@@ -34,7 +34,7 @@
     "family": "trail-exp-backend-task-definition",
     "taskRoleArn": "arn:aws:iam::236322310200:role/ecsTaskExecutionRole",
     "executionRoleArn": "arn:aws:iam::236322310200:role/ecsTaskExecutionRole",
-    "revision": 9,
+    "revision": 23,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -61,15 +61,19 @@
         }
     ],
     "placementConstraints": [],
-    "compatibilities": ["EC2"],
-    "requiresCompatibilities": ["EC2"],
+    "compatibilities": [
+        "EC2"
+    ],
+    "requiresCompatibilities": [
+        "EC2"
+    ],
     "cpu": "819",
     "memory": "819",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "registeredAt": "2024-03-20T02:12:22.232Z",
-    "registeredBy": "arn:aws:iam::236322310200:user/Govardhan-Dev",
+    "registeredAt": "2024-04-05T05:36:47.294Z",
+    "registeredBy": "arn:aws:iam::236322310200:user/Govardhan",
     "tags": []
 }
