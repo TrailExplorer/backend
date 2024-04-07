@@ -1,6 +1,6 @@
 import os
 import boto3
-from boto3.dynamodb.conditions import Attr
+from boto3.dynamodb.conditions import Key, Attr
 from decimal import Decimal
 
 dynamodb = boto3.resource('dynamodb')
@@ -24,9 +24,16 @@ def get_trail_details(data):
 
 def get_trails_by_difficulty_rating(data):
     difficulty_rating = int(data.get('difficulty_rating', 7))
-    response = table.scan(
-        FilterExpression=Attr('difficulty_rating').lte(difficulty_rating)
-    )
+    state_name = data.get('state_name', '')
+    if state_name is not '':
+        response = table.query(
+            KeyConditionExpression=Key('state_name').eq(state_name),
+            FilterExpression=Attr('difficulty_rating').lte(difficulty_rating)
+        )
+    else:
+            response = table.scan(
+            FilterExpression=Attr('difficulty_rating').lte(difficulty_rating)
+        )
     items = response.get('Items', [])
     items=sort_items(items,'difficulty_rating',True)
     return items[:15]
