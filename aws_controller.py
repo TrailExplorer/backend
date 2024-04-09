@@ -41,19 +41,11 @@ def get_trails_by_length(data):
 
 def get_trails_by_rating(data):
     state = data.get('state', None)
-    rating = data.get('rating', None)
+    rating = data.get('rating', 5)
 
-    if state is None and rating is None:
-        response = table.scan(
-            FilterExpression=Attr('avg_rating').gte(Decimal(5))
-        )
-    elif state is None:
+    if state is None:
         response = table.scan(
             FilterExpression=Attr('avg_rating').gte(Decimal(rating))
-        )
-    elif rating is None:
-        response = table.query(
-            KeyConditionExpression=Key('state_name').eq(state)
         )
     else:
         response = table.query(
