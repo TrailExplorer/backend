@@ -22,5 +22,11 @@ def get_trails_by_length():
     data=request.get_json()
     return  jsonify(aws_controller.get_trails_by_length(data))
 
+@app.route('/get-trails-by-rating', methods = ['GET'])
+def get_trails_by_rating():
+    data=request.get_json()
+    return jsonify(aws_controller.get_trails_by_rating(data))
+
+
 if __name__=='__main__':
     app.run()
