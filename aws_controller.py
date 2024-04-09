@@ -1,6 +1,6 @@
 import os
 import boto3
-from boto3.dynamodb.conditions import Key, Attr
+from boto3.dynamodb.conditions import Attr, Key
 from decimal import Decimal
 
 dynamodb = boto3.resource('dynamodb')
@@ -24,19 +24,18 @@ def get_trail_details(data):
 
 def get_trails_by_difficulty_rating(data):
     difficulty_rating = int(data.get('difficulty_rating', 7))
-    state_name = data.get('state_name', '')
-    if state_name is not '':
+    state_name = data.get('state_name', None)
+    if state_name is None:
+        response = table.scan(
+            FilterExpression=Attr('difficulty_rating').lte(difficulty_rating)
+        )
+    else:
         response = table.query(
             KeyConditionExpression=Key('state_name').eq(state_name),
             FilterExpression=Attr('difficulty_rating').lte(difficulty_rating)
         )
-    else:
-            response = table.scan(
-            FilterExpression=Attr('difficulty_rating').lte(difficulty_rating)
-        )
     items = response.get('Items', [])
-    items=sort_items(items,'difficulty_rating',True)
-    return items[:15]
+    return sort_items(items,'difficulty_rating',True)[:15]
 
 def get_trails_by_length(data):
     max_length =  Decimal(data.get('length', 339570.74))
@@ -44,5 +43,23 @@ def get_trails_by_length(data):
         FilterExpression=Attr('length').lte(max_length)
     )
     items = response.get('Items', [])
-    items=sort_items(items,'length',True)
-    return items[:15]
+    return sort_items(items,'length',True)[:15]
+
+def get_trails_by_rating(data):
+    state = data.get('state', None)
+    rating = data.get('rating', 5)
+    if state is None:
+        response = table.scan(
+            FilterExpression=Attr('avg_rating').gte(Decimal(rating))
+        )
+    else:
+        response = table.query(
+            KeyConditionExpression=Key('state_name').eq(state),
+            FilterExpression=Attr('avg_rating').gte(Decimal(rating))
+        )
+    items = response['Items']
+    return sort_items(items, 'avg_rating', True)[:15]
+
+
+
+
