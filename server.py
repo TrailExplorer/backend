@@ -19,16 +19,16 @@ def get_trails_by_difficulty_rating():
     difficulty_rating=request.args.get('difficulty_rating')
     return jsonify(aws_controller.get_trails_by_difficulty_rating(difficulty_rating, state_name))
 
-@app.route('/get-trails-by-length')
+@app.route('/get-trails-by-length', methods=['GET'])
 def get_trails_by_length():
-    data=request.get_json()
-    return  jsonify(aws_controller.get_trails_by_length(data))
+    state_name=request.args.get('state_name')
+    length=request.args.get('length')
+    return  jsonify(aws_controller.get_trails_by_length(length,state_name))
 
 @app.route('/get-trails-by-rating', methods = ['GET'])
 def get_trails_by_rating():
     data=request.get_json()
     return jsonify(aws_controller.get_trails_by_rating(data))
-
 
 if __name__=='__main__':
     app.run()
