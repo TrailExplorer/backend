@@ -10,29 +10,30 @@ def sort_items(items,key,reverse):
     items.sort(key=lambda item: item.get(key, 0), reverse=reverse)
     return items
 
-def get_trail_details(data):
+def get_trail_details(state_name, trail_id):
     try:
         response = table.get_item(
             Key={
-                'state_name': data['state_name'] ,
-                'trail_id': data['trail_id'],
+                'state_name': state_name ,
+                'trail_id': int(trail_id)
             }
         )
         return response['Item']
     except:
         return  {"error": "Item not found."}
 
-def get_trails_by_difficulty_rating(data):
-    difficulty_rating = int(data.get('difficulty_rating', 7))
-    state_name = data.get('state_name', None)
+def get_trails_by_difficulty_rating(difficulty_rating, state_name=None):
+    if difficulty_rating is None:
+        difficulty_rating = '7'
+    
     if state_name is None:
         response = table.scan(
-            FilterExpression=Attr('difficulty_rating').lte(difficulty_rating)
+            FilterExpression=Attr('difficulty_rating').lte(int(difficulty_rating))
         )
     else:
         response = table.query(
             KeyConditionExpression=Key('state_name').eq(state_name),
-            FilterExpression=Attr('difficulty_rating').lte(difficulty_rating)
+            FilterExpression=Attr('difficulty_rating').lte(int(difficulty_rating))
         )
     items = response.get('Items', [])
     return sort_items(items,'difficulty_rating',True)[:15]

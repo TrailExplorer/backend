@@ -9,13 +9,15 @@ def helloworld():
 
 @app.route('/get-trail-details', methods=['GET'])
 def get_trail_details():
-    data=request.get_json() 
-    return jsonify(aws_controller.get_trail_details(data))
+    state_name=request.args.get('state_name')
+    trail_id=request.args.get('trail_id')
+    return jsonify(aws_controller.get_trail_details(state_name, trail_id))
 
 @app.route('/get-trails-by-difficulty-rating', methods=['GET'])
 def get_trails_by_difficulty_rating():
-    data=request.get_json()
-    return jsonify(aws_controller.get_trails_by_difficulty_rating(data))
+    state_name=request.args.get('state_name')
+    difficulty_rating=request.args.get('difficulty_rating')
+    return jsonify(aws_controller.get_trails_by_difficulty_rating(difficulty_rating, state_name))
 
 @app.route('/get-trails-by-length')
 def get_trails_by_length():
