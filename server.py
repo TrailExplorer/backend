@@ -34,8 +34,9 @@ def get_trails_by_length():
 @app.route('/get-trails-by-rating', methods = ['GET'])
 @cross_origin()
 def get_trails_by_rating():
-    data=request.get_json()
-    return jsonify(aws_controller.get_trails_by_rating(data))
+    state_name = request.args.get('state_name')
+    rating = request.args.get('rating')
+    return jsonify(aws_controller.get_trails_by_rating(state_name, rating))
 
 if __name__=='__main__':
     app.run()

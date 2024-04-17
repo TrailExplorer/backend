@@ -51,17 +51,17 @@ def get_trails_by_length(length,state_name=None):
     items = response.get('Items', [])
     return sort_items(items,'length',True)[:15]
 
-def get_trails_by_rating(data):
-    state = data.get('state', None)
-    rating = data.get('rating', 5)
-    if state is None:
+def get_trails_by_rating(state_name, rating):
+    if rating is None:
+        rating = '5'
+    if state_name is None:
         response = table.scan(
-            FilterExpression=Attr('avg_rating').gte(Decimal(rating))
+            FilterExpression = Attr('avg_rating').gte(Decimal(rating))
         )
     else:
         response = table.query(
-            KeyConditionExpression=Key('state_name').eq(state),
-            FilterExpression=Attr('avg_rating').gte(Decimal(rating))
+            KeyConditionExpression = Key('state_name').eq(state_name),
+            FilterExpression = Attr('avg_rating').gte(Decimal(rating))
         )
     items = response['Items']
     return sort_items(items, 'avg_rating', True)[:15]
