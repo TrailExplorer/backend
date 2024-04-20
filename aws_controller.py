@@ -13,7 +13,7 @@ def get_trail_details(state_name, trail_id):
     try:
         response = table.get_item(
             Key={
-                'state_name': state_name ,
+                'state_name': state_name,
                 'trail_id': int(trail_id)
             }
         )
@@ -63,9 +63,25 @@ def get_trails_by_rating(state_name, rating):
             KeyConditionExpression = Key('state_name').eq(state_name),
             FilterExpression = Attr('avg_rating').gte(Decimal(rating))
         )
-    items = response['Items']
+    items = response.get('Items', [])
     return sort_items(items, 'avg_rating', True)[:15]
 
+def trails_search(state_name=None, trail_name=None):
+    try:
+        if state_name is None or state_name == '':
+            return {"error": "State Name is Required."}
 
-
+        if trail_name is None:
+            response = table.query(
+                KeyConditionExpression=Key('state_name').eq(state_name)
+            )
+        else:
+            response = table.query(
+                KeyConditionExpression = Key('state_name').eq(state_name),
+                FilterExpression = Attr('name').contains(trail_name)
+            )
+        items = response.get('Items', [])
+        return items
+    except:
+        return {"error": "Server met with an error"}
 
