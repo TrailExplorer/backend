@@ -38,5 +38,12 @@ def get_trails_by_rating():
     rating = request.args.get('rating')
     return jsonify(aws_controller.get_trails_by_rating(state_name, rating))
 
+@app.route('/trails-search', methods = ['GET'])
+@cross_origin()
+def trails_search():
+    state_name = request.args.get('state_name')
+    trail_name = request.args.get('trail_name')
+    return jsonify(aws_controller.trails_search(state_name, trail_name))
+
 if __name__=='__main__':
     app.run()
